@@ -3,6 +3,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 {{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
 <meta name="robots" content="index, follow">
+<link rel="icon" href="/favicon.png">
+
+
 {{- else }}
 <meta name="robots" content="noindex, nofollow">
 {{- end }}
@@ -34,6 +37,7 @@
 {{- end }}
 
 {{- /* Styles */}}
+{{- $bulma := (resources.Get "css/extended/bulma.css") }}
 {{- $theme_vars := (resources.Get "css/core/theme-vars.css") }}
 {{- $reset := (resources.Get "css/core/reset.css") }}
 {{- $media := (resources.Get "css/core/zmedia.css") }}
@@ -44,7 +48,7 @@
 {{- $hljs := (cond ($isHLJSdisabled) (" " | resources.FromString "assets/css/hljs-blank.css") (resources.Get "css/hljs/an-old-hope.min.css")) }}
 
 {{- /* order is important */}}
-{{- $core := (slice $theme_vars $reset $common $hljs $media) | resources.Concat "assets/css/core.css" }}
+{{- $core := (slice $bulma $theme_vars $reset $common $hljs $media) | resources.Concat "assets/css/core.css" }}
 {{- $extended := (resources.Match "css/extended/*.css") | resources.Concat "assets/css/extended.css" }}
 
 {{- /* bundle all required css */}}
@@ -61,6 +65,7 @@
 {{- /* Search */}}
 {{- if (eq .Layout `search`) -}}
 <link crossorigin="anonymous" rel="preload" as="fetch" href="../index.json">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
 {{- $fastsearch := resources.Get "js/fastsearch.js" | js.Build (dict "params" (dict "fuseOpts" .Site.Params.fuseOpts)) }}
 {{- $fusejs := resources.Get "js/fuse.js" }}
 {{- if not .Site.Params.assets.disableFingerprinting }}
